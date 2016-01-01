@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ghpabs/angular2-inline-template-style.svg?branch=master)](https://travis-ci.org/ghpabs/angular2-inline-template-style)
 
->Resolve `templateUrl` and `styleUrls` in Angular2 components.
+Resolve `templateUrl` and `styleUrls` in Angular2 components.
 
 ## Install
 
