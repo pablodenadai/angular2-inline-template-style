@@ -73,7 +73,7 @@ Base folder for templates and stylesheet files.
 Help wanted for implementing:
 - Jade
 - Less
-- Scss/Scass
+- Scss/Sass
 - File base path
 - Gulp and Grunt plugins
 - ES5 or 6 outcome options
