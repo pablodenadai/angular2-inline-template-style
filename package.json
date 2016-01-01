@@ -1,0 +1,33 @@
+{
+  "name": "angular2-inline-template-style",
+  "version": "0.0.1",
+  "description": "Resolve styleUrls in Angular2 components.",
+  "license": "MIT",
+  "repository": "ghpabs/angular2-inline-template-style",
+  "author": {
+    "name": "Pabs"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+  ],
+  "dependencies": {
+    "meow": "^3.6.0"
+  },
+  "devDependencies": {
+    "ava": "^0.8.0",
+    "xo": "^0.12.1"
+  },
+  "xo": {
+    "ignores": [
+      "test.js"
+    ]
+  }
+}
