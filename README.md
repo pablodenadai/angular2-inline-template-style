@@ -69,6 +69,15 @@ Type: `string`
 Default: `'./'`  
 Base folder for templates and stylesheet files.
 
+## CLI
+### Usage
+```bash
+ng2-inline [--outDir|-o] [--base|-b] [--flatten|-f] [--up|-u <count>] <path glob>
+```
+- --flatten : remove parent directories from source locations (all output is written to --outDir)
+- --up <count> : remove ```count``` leading folders from the source locations when writing to --outDir
+- --base : as above
+
 ## Help wanted
 Help wanted for implementing:
 - Jade
