@@ -69,6 +69,21 @@ Type: `string`
 Default: `'./'`  
 Base folder for templates and stylesheet files.
 
+## CLI
+### Usage
+```bash
+ng2-inline [--outDir|-o] [--base|-b] [--flatten|-f] [--up|-u <count>] <path glob>
+```
+- --flatten : remove parent directories from source locations (all output is written to --outDir)
+- --up <count> : remove ```count``` leading folders from the source locations when writing to --outDir
+- --base : as above
+
+### Examples
+```bash
+ng2-inline -o dist -f -b src/components src/components/**/*.js
+```
+will take all .js files (recursively) from ```src/components``` and insert template/style URLs, found relative to src/components, and output them to ./dist/ with leading paths removed.
+
 ## Help wanted
 Help wanted for implementing:
 - Jade

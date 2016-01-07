@@ -10,16 +10,19 @@
   "engines": {
     "node": ">=0.10.0"
   },
+  "bin": {
+    "ng2-inline": "bin/cli.js"
+  },
   "scripts": {
     "test": "xo && ava"
   },
   "files": [
     "index.js"
   ],
-  "keywords": [
-  ],
+  "keywords": [],
   "dependencies": {
-    "meow": "^3.6.0"
+    "meow": "^3.6.0",
+    "mkdirp": "^0.5.1"
   },
   "devDependencies": {
     "ava": "^0.8.0",
