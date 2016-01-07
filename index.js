@@ -2,6 +2,8 @@
 
 var fs = require('fs');
 var path = require('path');
+var minify = require('html-minifier').minify;
+var CleanCSS = require('clean-css');
 
 module.exports = function (content, options) {
 	options = options || {};
@@ -31,7 +33,11 @@ function processStyleUrls(content, options) {
 		var result = '';
 		urls.forEach(function (url) {
 			let file = fs.readFileSync(path.join(options.base, url), 'utf-8');
-			file = file.replace(/\n/g, '');
+			if (options.compress) {
+				file = new CleanCSS().minify(file).styles;
+			} else {
+				file = file.replace(/\n/g, '');
+			}
 
 			result += file;
 		});
@@ -56,7 +62,11 @@ function processTemplateUrl(content, options) {
 		let url = exec[1] || exec[2];
 
 		let file = fs.readFileSync(path.join(options.base, url), 'utf-8');
-		file = file.replace(/\n/g, '');
+		if (options.compress) {
+			file = minify(file, {collapseWhitespace: true, removeComments: true});
+		} else {
+			file = file.replace(/\n/g, '');
+		}
 
 		content = content.replace(template, 'template: \'' + file + '\'');
 	});

@@ -13,10 +13,11 @@
 			u: 'up',
 			f: 'flatten',
 			o: 'outDir',
-			b: 'base'
+			b: 'base',
+			c: 'compress'
 		},
 		string: ['outDir', 'base'],
-		boolean: ['flatten'],
+		boolean: ['flatten', 'compress'],
 		number: ['up']
 	});
 
@@ -36,7 +37,8 @@
 							console.error('failed to read target: ' + target);
 						} else {
 							content = require('../index.js')(content.toString(), {
-								base: args.base
+								base: args.base,
+								compress: args.compress
 							});
 
 							if (args.flatten) {

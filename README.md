@@ -68,15 +68,20 @@ The file content to be processed.
 Type: `string`  
 Default: `'./'`  
 Base folder for templates and stylesheet files.
+##### compress
+Type: `boolean`  
+Default: `false`  
+Use [html-min](https://github.com/kangax/html-minifier) and [clean-css](https://github.com/jakubpawlowicz/clean-css) to compress the templates before they are inlined.
 
 ## CLI
 ### Usage
 ```bash
-ng2-inline [--outDir|-o] [--base|-b] [--flatten|-f] [--up|-u <count>] <path glob>
+ng2-inline [--outDir|-o] [--base|-b] [--flatten|-f] [--up|-u <count>] [--compress|-c] <path glob>
 ```
 - --flatten : remove parent directories from source locations (all output is written to --outDir)
 - --up <count> : remove ```count``` leading folders from the source locations when writing to --outDir
 - --base : as above
+- --compress: as above
 
 ### Examples
 ```bash
