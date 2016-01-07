@@ -69,8 +69,8 @@ Type: `string`
 Default: `'./'`  
 Base folder for templates and stylesheet files.
 ##### compress
-Type: `boolean`
-Default: `false`
+Type: `boolean`  
+Default: `false`  
 Use html-min and clean-css to compress the templates before they are inlined.
 
 ## CLI
