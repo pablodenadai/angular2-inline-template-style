@@ -25,7 +25,7 @@ h1 {
 ```
 
 ```js
-const styleUrls = require('angular2-inline-template-style');
+const ng2Inline = require('angular2-inline-template-style');
 
 let content = `
   import {Component} from 'angular2/core';
@@ -40,7 +40,7 @@ let content = `
   }
 `;
 
-styleUrls(content, {});
+ng2Inline(content, {});
 ```
 
 ```js
@@ -87,16 +87,20 @@ ng2-inline [--outDir|-o] [--base|-b] [--flatten|-f] [--up|-u <count>] [--compres
 ```bash
 ng2-inline -o dist -f -b src/components src/components/**/*.js
 ```
-will take all .js files (recursively) from ```src/components``` and insert template/style URLs, found relative to src/components, and output them to ./dist/ with leading paths removed.
+
+It will take all .js files (recursively) from `src/components` and insert template/style URLs, found relative to `src/components`, and output them to `./dist/` with leading paths removed.
 
 ## Help wanted
 Help wanted for implementing:
-- Jade
-- Less
-- Scss/Sass
-- File base path
-- Gulp and Grunt plugins
-- ES5 or 6 outcome options
+
+- [ ] Jade
+- [ ] Less
+- [ ] Scss/Sass
+- [ ] Relative file path
+- [ ] Gulp and Grunt plugins
+- [ ] ES5 or 6 output options
+- [x] ~~CLI~~ thanks [@jiminys](https://github.com/jiminys)
+- [x] ~~Compression~~ thanks [@jiminys](https://github.com/jiminys)
 
 ## License
 MIT
