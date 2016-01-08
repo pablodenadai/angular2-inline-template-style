@@ -2,7 +2,5 @@
 	'use strict';
 	var path = require('path');
 
-	module.exports = file => {
-		return path.basename(file);
-	};
+	module.exports = file => path.basename(file);
 })();
