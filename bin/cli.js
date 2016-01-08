@@ -44,8 +44,8 @@
 							file = path.basename(file);
 						} else if (typeof args.up === 'number') {
 							var up = args.up;
-							while (up > 0 && file.indexOf('/')) {
-								file = file.substring(file.indexOf('/'), file.length);
+							while (up > 0 && file.indexOf('/') >= 0) {
+								file = file.substring(file.indexOf('/') + 1);
 								up--;
 							}
 						}

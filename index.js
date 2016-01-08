@@ -59,7 +59,15 @@ function processTemplateUrl(content, options) {
 	matches.forEach(function () {
 		let exec = re.exec(content);
 		let template = exec[0];
-		let url = exec[1] || exec[2];
+		let quote;
+		let url;
+		if (exec[1]) {
+			url = exec[1];
+			quote = '"';
+		} else {
+			url = exec[2];
+			quote = '\'';
+		}
 
 		let file = fs.readFileSync(path.join(options.base, url), 'utf-8');
 		if (options.compress) {
@@ -70,11 +78,13 @@ function processTemplateUrl(content, options) {
 // ng2 bindings break the parser for html-minifer, so the following blocks the processing of ()="" and []="" attributes
 					ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
 				});
+				// escape quote chars
+			file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
 		} else {
 			file = file.replace(/[\r\n]\s*/g, '');
 		}
 
-		content = content.replace(template, 'template: \'' + file + '\'');
+		content = content.replace(template, 'template: ' + quote + file + quote);
 	});
 
 	return content;
