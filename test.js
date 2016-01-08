@@ -27,7 +27,7 @@ test('inline basic', t => {
 
 	@Component({
 		selector: 'foo',
-		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a   href="/#/home">Home Page</a></li><li><a   href="/#/about">About</a></li><li><a   href="/#/contact">Contact</a></li></ul></div><h1>Hello World</h1>',
+		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a href="/#/home">Home Page</a></li><li><a href="/#/about">About</a></li><li><a href="/#/contact">Contact</a></li></ul></div><h1>Hello World</h1>',
 		styles: ['h1 {  color: #ff0000;}']
 	})
 	export class ComponentX {
@@ -43,7 +43,7 @@ test('inline basic', t => {
 	}`;
 
   let options = {
-    base: 'samples'
+	base: 'samples'
   };
 
   t.is(fn(content, options), result);
@@ -90,12 +90,12 @@ test('inline with compress', t => {
 		constructor() {}
 	}`;
 
-  let options = {
-    base: 'samples',
+	let options = {
+		base: 'samples',
 		compress: true
-  };
+	};
 
-  t.is(fn(content, options), result);
+	t.is(fn(content, options), result);
 });
 
 test('inline with compress and angular2 syntax', t => {
@@ -139,37 +139,20 @@ test('inline with compress and angular2 syntax', t => {
 		constructor() {}
 	}`;
 
-  let options = {
-    base: 'samples',
-		compress: true
-  };
-
-  t.is(fn(content, options), result);
-});
-
-test('inline and match quotes', t => {
-	var content = `import {Component} from 'angular2/core';
-	@Component({
-		selector: 'foo',
-		templateUrl: "component.html",
-		styleUrls: ['component.css']
-	})
-	export class ComponentX {
-		constructor() {}
-	}`;
-	var result = `import {Component} from 'angular2/core';
-	@Component({
-		selector: 'foo',
-		template: "<div class=\\"navbar-collapse collapse\\" collapse=\\"isCollapsed\\"><ul class=\\"nav sidebar-nav\\"><li><a href=\\"/#/home\\">Home Page</a></li><li><a href=\\"/#/about\\">About</a></li><li><a href=\\"/#/contact\\">Contact</a></li></ul></div><h1>Hello World</h1>",
-		styles: ['h1{color:red}']
-	})
-	export class ComponentX {
-		constructor() {}
-	}`;
 	let options = {
 		base: 'samples',
 		compress: true
 	};
+
+	t.is(fn(content, options), result);
+});
+
+test('inline and match quotes', t => {
+	let options = {
+		base: 'samples',
+		compress: true
+	};
+
 	var content = `import {Component} from 'angular2/core';
 	@Component({
 		selector: 'foo',
@@ -179,6 +162,7 @@ test('inline and match quotes', t => {
 	export class ComponentX {
 		constructor() {}
 	}`;
+
 	var result = `import {Component} from 'angular2/core';
 	@Component({
 		selector: 'foo',
@@ -188,6 +172,7 @@ test('inline and match quotes', t => {
 	export class ComponentX {
 		constructor() {}
 	}`;
+
 	t.is(fn(content, options), result);
 });
 
