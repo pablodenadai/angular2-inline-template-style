@@ -10,6 +10,7 @@
 	var inliner = require('../index.js');
 	var flattener = require('./flattener');
 	var upper = require('./upper');
+	var chokidar = require('chokidar');
 
 	var args = minimist(process.argv.slice(2), {
 		alias: {
@@ -17,17 +18,31 @@
 			f: 'flatten',
 			o: 'outDir',
 			b: 'base',
-			c: 'compress'
+			c: 'compress',
+			w: 'watch'
 		},
 		string: ['outDir', 'base'],
-		boolean: ['flatten', 'compress'],
+		boolean: ['flatten', 'compress', 'watch'],
 		number: ['up']
 	});
 
 	var globPath = args._.slice()[0];
 	if (!globPath || typeof globPath === 'undefined' || globPath.length === 0) {
 		doUsage();
+	} else if (args.watch) {
+		doWatch(globPath, args);
 	} else {
+		doOnce(globPath, args);
+	}
+
+	function doWatch(globPath, args) {
+		chokidar.watch(globPath).on('all', (event, path) => {
+			console.log(event, path);
+			doOnce(path, args);
+		});
+	}
+
+	function doOnce(globPath, args) {
 		glob(globPath, {}, (er, files) => {
 			if (er) {
 				console.error('failed to find files for path: ' + globPath);
