@@ -19,7 +19,7 @@ function processStyleUrls(content, options) {
 	let re = /styleUrls\s*:\s*(\[[^](.[^]*?)\])/g;
 	let matches = content.match(re);
 
-	if (matches.length < 0) {
+	if (matches === null || matches.length <= 0) {
 		return content;
 	}
 
@@ -36,7 +36,7 @@ function processStyleUrls(content, options) {
 			if (options.compress) {
 				file = new CleanCSS().minify(file).styles;
 			} else {
-				file = file.replace(/\n/g, '');
+				file = file.replace(/[\r\n]/g, '');
 			}
 
 			result += file;
@@ -52,23 +52,42 @@ function processTemplateUrl(content, options) {
 	let re = /templateUrl\s*:\s*(?:"([^"]+)"|'([^']+)')/g;
 	let matches = content.match(re);
 
-	if (matches.length < 0) {
+	if (matches === null || matches.length <= 0) {
 		return content;
 	}
 
 	matches.forEach(function () {
 		let exec = re.exec(content);
 		let template = exec[0];
-		let url = exec[1] || exec[2];
+		let quote;
+		let url;
+		if (exec[1]) {
+			url = exec[1];
+			quote = '"';
+		} else {
+			url = exec[2];
+			quote = '\'';
+		}
 
 		let file = fs.readFileSync(path.join(options.base, url), 'utf-8');
 		if (options.compress) {
-			file = minify(file, {collapseWhitespace: true, removeComments: true});
+			file = minify(file,
+				{
+					collapseWhitespace: true,
+					removeComments: true,
+					/*
+						ng2 bindings break the parser for html-minifer, so the
+						following blocks the processing of ()="" and []="" attributes
+					*/
+					ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
+				});
+				// escape quote chars
+			file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
 		} else {
-			file = file.replace(/\n/g, '');
+			file = file.replace(/[\r\n]\s*/g, '');
 		}
 
-		content = content.replace(template, 'template: \'' + file + '\'');
+		content = content.replace(template, 'template: ' + quote + file + quote);
 	});
 
 	return content;
