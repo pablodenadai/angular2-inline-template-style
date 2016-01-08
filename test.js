@@ -1,7 +1,7 @@
 import test from 'ava';
 import fn from './';
 
-test('inline-template-style foo?', t => {
+test('inline-template-style', t => {
 	var content = `import {Component} from 'angular2/core';
 
 	@Component({
