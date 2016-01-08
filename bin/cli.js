@@ -7,7 +7,9 @@
 	var mkdirp = require('mkdirp').sync;
 	var minimist = require('minimist');
 	var glob = require('glob');
-	var inline = require('../index.js');
+	var inliner = require('../index.js');
+	var flattener = require('./flattener');
+	var upper = require('./upper');
 
 	var args = minimist(process.argv.slice(2), {
 		alias: {
@@ -35,19 +37,15 @@
 					var target = path.join(process.cwd(), file);
 					var content = fs.readFileSync(target);
 					if (content) {
-						content = inline(content.toString(), {
+						content = inliner(content.toString(), {
 							base: args.base,
 							compress: args.compress
 						});
 
 						if (args.flatten) {
-							file = path.basename(file);
+							file = flattener.flatten(file);
 						} else if (typeof args.up === 'number') {
-							var up = args.up;
-							while (up > 0 && file.indexOf('/') >= 0) {
-								file = file.substring(file.indexOf('/') + 1);
-								up--;
-							}
+							file = upper(file, args.up);
 						}
 
 						var destination = path.join(args.outDir, file);

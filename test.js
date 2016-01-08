@@ -190,3 +190,17 @@ test('inline and match quotes', t => {
 	}`;
 	t.is(fn(content, options), result);
 });
+
+test('upper', t => {
+	let upper = require('./bin/upper');
+
+	t.is(upper('src/main/ts/app.ts', 3), 'app.ts');
+	t.is(upper('src/main/ts/app/myapp.ts', 3), 'app/myapp.ts');
+});
+
+test('flattener', t => {
+	let flatten = require('./bin/flattener');
+
+	t.is(flatten('src/main/ts/app.ts'), 'app.ts');
+	t.is(flatten('src/main/ts/app/myapp.ts'), 'myapp.ts');
+});

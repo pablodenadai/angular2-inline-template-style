@@ -76,7 +76,7 @@ function processTemplateUrl(content, options) {
 					collapseWhitespace: true,
 					removeComments: true,
 					/*
-						ng2 bindings break the parser for html-minifer, so the 
+						ng2 bindings break the parser for html-minifer, so the
 						following blocks the processing of ()="" and []="" attributes
 					*/
 					ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
