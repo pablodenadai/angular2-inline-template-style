@@ -14,7 +14,8 @@
     "ng2-inline": "bin/cli.js"
   },
   "scripts": {
-    "test": "xo && ava"
+    "test": "xo && ava",
+    "watch-test": "chokidar **/*.js -c \"npm run test\""
   },
   "files": [
     "index.js"
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "ava": "^0.8.0",
+    "chokidar-cli": "^1.2.0",
     "xo": "^0.12.1"
   },
   "xo": {

@@ -19,7 +19,7 @@ function processStyleUrls(content, options) {
 	let re = /styleUrls\s*:\s*(\[[^](.[^]*?)\])/g;
 	let matches = content.match(re);
 
-	if (matches.length < 0) {
+	if (matches === null || matches.length <= 0) {
 		return content;
 	}
 
@@ -36,7 +36,7 @@ function processStyleUrls(content, options) {
 			if (options.compress) {
 				file = new CleanCSS().minify(file).styles;
 			} else {
-				file = file.replace(/\n/g, '');
+				file = file.replace(/[\r\n]/g, '');
 			}
 
 			result += file;
@@ -52,7 +52,7 @@ function processTemplateUrl(content, options) {
 	let re = /templateUrl\s*:\s*(?:"([^"]+)"|'([^']+)')/g;
 	let matches = content.match(re);
 
-	if (matches.length < 0) {
+	if (matches === null || matches.length <= 0) {
 		return content;
 	}
 
@@ -63,9 +63,14 @@ function processTemplateUrl(content, options) {
 
 		let file = fs.readFileSync(path.join(options.base, url), 'utf-8');
 		if (options.compress) {
-			file = minify(file, {collapseWhitespace: true, removeComments: true});
+			file = minify(file,
+				{
+					collapseWhitespace: true,
+					removeComments: true,
+					ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
+				});
 		} else {
-			file = file.replace(/\n/g, '');
+			file = file.replace(/[\r\n]\s*/g, '');
 		}
 
 		content = content.replace(template, 'template: \'' + file + '\'');
