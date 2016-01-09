@@ -156,6 +156,28 @@ test('inline and match quotes', t => {
 	var content = `import {Component} from 'angular2/core';
 	@Component({
 		selector: 'foo',
+		templateUrl: "component.html",
+		styleUrls: ['component.css']
+	})
+	export class ComponentX {
+		constructor() {}
+	}`;
+
+	var result = `import {Component} from 'angular2/core';
+	@Component({
+		selector: 'foo',
+		template: "<div class=\\"navbar-collapse collapse\\" collapse=\\"isCollapsed\\"><ul class=\\"nav sidebar-nav\\"><li><a href=\\"/#/home\\">Home Page</a></li><li><a href=\\"/#/about\\">About</a></li><li><a href=\\"/#/contact\\">Contact</a></li></ul></div><h1>Hello World</h1>",
+		styles: ['h1{color:red}']
+	})
+	export class ComponentX {
+		constructor() {}
+	}`;
+
+	t.is(fn(content, options), result);
+
+	var content = `import {Component} from 'angular2/core';
+	@Component({
+		selector: 'foo',
 		templateUrl: 'component-ng2.html',
 		styleUrls: ['component.css']
 	})
