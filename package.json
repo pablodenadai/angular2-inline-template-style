@@ -18,7 +18,8 @@
     "watch-test": "chokidar **/*.js -c \"npm run test\""
   },
   "files": [
-    "index.js"
+    "index.js",
+    "bin/"
   ],
   "keywords": [],
   "dependencies": {
