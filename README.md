@@ -99,7 +99,7 @@ Help wanted for implementing:
 - [ ] Scss/Sass
 - [x] ~~Relative file path~~
 - [ ] Gulp and Grunt plugins
-- [] ES5 or 6 output options
+- [ ] ES5 or 6 output options
 - [x] ~~CLI~~ thanks [@jiminys](https://github.com/jiminys)
 - [x] ~~Compression~~ thanks [@jiminys](https://github.com/jiminys)
 
