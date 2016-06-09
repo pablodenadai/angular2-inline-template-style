@@ -97,7 +97,7 @@ Help wanted for implementing:
 - [ ] Jade
 - [ ] Less
 - [ ] Scss/Sass
-- [ ] Relative file path
+- [x] ~~Relative file path~~
 - [ ] Gulp and Grunt plugins
 - [ ] ES5 or 6 output options
 - [x] ~~CLI~~ thanks [@jiminys](https://github.com/jiminys)

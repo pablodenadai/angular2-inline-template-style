@@ -5,17 +5,17 @@ var path = require('path');
 var minify = require('html-minifier').minify;
 var CleanCSS = require('clean-css');
 
-module.exports = function (content, options) {
+module.exports = function (content, options, targetDir) {
 	options = options || {};
 	options.base = options.base || './';
 
-	content = processStyleUrls(content, options);
-	content = processTemplateUrl(content, options);
+	content = processStyleUrls(content, options, targetDir);
+	content = processTemplateUrl(content, options, targetDir);
 
 	return content;
 };
 
-function processStyleUrls(content, options) {
+function processStyleUrls(content, options, targetDir) {
 	let re = /styleUrls\s*:\s*(\[[^](.[^]*?)\])/g;
 	let matches = content.match(re);
 
@@ -31,7 +31,7 @@ function processStyleUrls(content, options) {
 		urls = JSON.parse(urls);
 
 		var result = urls.map(function (url) {
-			let file = fs.readFileSync(path.join(options.base, url), 'utf-8');
+			let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
 
 			if (options.compress) {
 				file = new CleanCSS().minify(file).styles;
@@ -48,7 +48,7 @@ function processStyleUrls(content, options) {
 	return content;
 }
 
-function processTemplateUrl(content, options) {
+function processTemplateUrl(content, options, targetDir) {
 	let re = /templateUrl\s*:\s*(?:"([^"]+)"|'([^']+)')/g;
 	let matches = content.match(re);
 
@@ -70,15 +70,15 @@ function processTemplateUrl(content, options) {
 			quote = '\'';
 		}
 
-		let file = fs.readFileSync(path.join(options.base, url), 'utf-8');
+		let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
 		if (options.compress) {
 			file = minify(file, {
 				collapseWhitespace: true,
 				removeComments: true,
 				/*
-					ng2 bindings break the parser for html-minifer, so the
-					following blocks the processing of ()="" and []="" attributes
-				*/
+				 ng2 bindings break the parser for html-minifer, so the
+				 following blocks the processing of ()="" and []="" attributes
+				 */
 				ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
 			});
 
@@ -92,4 +92,8 @@ function processTemplateUrl(content, options) {
 	});
 
 	return content;
+}
+
+function getAbsoluteUrl(url, options, targetDir) {
+	return options.relative ? path.join(targetDir, url) : path.join(options.base, url);
 }

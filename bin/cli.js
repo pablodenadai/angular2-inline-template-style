@@ -19,10 +19,11 @@
 			o: 'outDir',
 			b: 'base',
 			c: 'compress',
-			w: 'watch'
+			w: 'watch',
+			r: 'relative'
 		},
 		string: ['outDir', 'base'],
-		boolean: ['flatten', 'compress', 'watch'],
+		boolean: ['flatten', 'compress', 'watch', 'relative'],
 		number: ['up']
 	});
 
@@ -54,8 +55,9 @@
 					if (content) {
 						content = inliner(content.toString(), {
 							base: args.base,
-							compress: args.compress
-						});
+							compress: args.compress,
+							relative: args.relative
+						}, path.dirname(target));
 
 						if (args.flatten) {
 							file = flattener.flatten(file);
