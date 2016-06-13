@@ -1,6 +1,6 @@
 {
   "name": "angular2-inline-template-style",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Resolve styleUrls in Angular2 components.",
   "license": "MIT",
   "repository": "ghpabs/angular2-inline-template-style",
