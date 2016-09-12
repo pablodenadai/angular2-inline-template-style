@@ -91,6 +91,9 @@ ng2-inline -o dist -f -b src/components src/components/**/*.js
 
 It will take all .js files (recursively) from `src/components` and insert template/style URLs, found relative to `src/components`, and output them to `./dist/` with leading paths removed.
 
+## Plugins
+ - [grunt-ng2-inline](https://github.com/m-architek/grunt-ng2-inline)
+
 ## Help wanted
 Help wanted for implementing:
 
@@ -98,7 +101,8 @@ Help wanted for implementing:
 - [ ] Less
 - [ ] Scss/Sass
 - [x] ~~Relative file path~~
-- [ ] Gulp and Grunt plugins
+- [x] ~~Grunt plugin~~ thanks [@m-architek](https://github.com/m-architek)
+- [ ] Gulp plugin
 - [ ] ES5 or 6 output options
 - [x] ~~CLI~~ thanks [@jiminys](https://github.com/jiminys)
 - [x] ~~Compression~~ thanks [@jiminys](https://github.com/jiminys)
