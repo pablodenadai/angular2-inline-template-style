@@ -81,12 +81,12 @@ function processTemplateUrl(content, options, targetDir) {
 				 */
 				ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
 			});
-
-			// escape quote chars
-			file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
 		} else {
 			file = file.replace(/[\r\n]\s*/g, '');
 		}
+
+		// escape quote chars
+		file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
 
 		content = content.replace(template, 'template: ' + quote + file + quote);
 	});
