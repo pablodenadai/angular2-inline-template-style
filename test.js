@@ -124,7 +124,7 @@ test('inline with compress and angular2 syntax', t => {
 
 	@Component({
 		selector: 'foo',
-		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1>Hello World</h1>',
+		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1 *ngIf="hello">Hello World</h1>',
 		styles: ['h1{color:red}']
 	})
 	export class ComponentX {
@@ -188,7 +188,7 @@ test('inline and match quotes', t => {
 	var result = `import {Component} from 'angular2/core';
 	@Component({
 		selector: 'foo',
-		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1>Hello World</h1>',
+		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1 *ngIf="hello">Hello World</h1>',
 		styles: ['h1{color:red}']
 	})
 	export class ComponentX {
@@ -212,7 +212,7 @@ test('inline with relative path', t => {
 	var result = `import {Component} from 'angular2/core';
 	@Component({
 		selector: 'foo',
-		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1>Hello World</h1>',
+		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1 *ngIf="hello">Hello World</h1>',
 		styles: ['h1{color:red}']
 	})
 	export class ComponentX {

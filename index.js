@@ -73,6 +73,7 @@ function processTemplateUrl(content, options, targetDir) {
 		let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
 		if (options.compress) {
 			file = minify(file, {
+				caseSensitive: true,
 				collapseWhitespace: true,
 				removeComments: true,
 				/*
