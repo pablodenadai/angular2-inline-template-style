@@ -42,7 +42,7 @@ function processStyleUrls(content, options, targetDir) {
 			return file;
 		}).join('');
 
-		content = content.replace(style, 'styles: [\'' + result + '\']');
+		content = content.replace(style, 'styles: [`' + result + '`]');
 	});
 
 	return content;
@@ -59,16 +59,7 @@ function processTemplateUrl(content, options, targetDir) {
 	matches.forEach(function () {
 		let exec = re.exec(content);
 		let template = exec[0];
-		let quote;
-		let url;
-
-		if (exec[1]) {
-			url = exec[1];
-			quote = '"';
-		} else {
-			url = exec[2];
-			quote = '\'';
-		}
+		let url = exec[1] || exec[2];
 
 		let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
 		if (options.compress) {
@@ -87,9 +78,9 @@ function processTemplateUrl(content, options, targetDir) {
 		}
 
 		// escape quote chars
-		file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
+		file = file.replace(new RegExp('`', 'g'), '\\`');
 
-		content = content.replace(template, 'template: ' + quote + file + quote);
+		content = content.replace(template, 'template: `' + file + '`');
 	});
 
 	return content;
