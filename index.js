@@ -39,6 +39,9 @@ function processStyleUrls(content, options, targetDir) {
 				file = file.replace(/[\r\n]/g, '');
 			}
 
+			// escape quote chars
+			file = file.replace(new RegExp('\'', 'g'), '\\\'');
+
 			return file;
 		}).join('');
 

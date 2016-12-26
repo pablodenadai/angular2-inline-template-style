@@ -28,7 +28,7 @@ test('inline basic', t => {
 	@Component({
 		selector: 'foo',
 		template: '<!-- HTML comments like this one should be removed when compression mode is on --><div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><!-- Extra spaces for testing compression --><li>  <a   href="/#/home">Home Page</a></li><li>  <a   href="/#/about">About</a></li><li>  <a   href="/#/contact">Contact</a></li></ul></div><h1>Hello World</h1>',
-		styles: ['h1 {  color: #ff0000;}']
+		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\';}']
 	})
 	export class ComponentX {
 		constructor() {}
@@ -36,7 +36,7 @@ test('inline basic', t => {
 
 	@Component({
 		selector: 'foo',
-		styles: ['h1 {  color: #ff0000;}']
+		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\';}']
 	})
 	export class ComponentY {
 		constructor() {}
@@ -76,7 +76,7 @@ test('inline with compress', t => {
 	@Component({
 		selector: 'foo',
 		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a href="/#/home">Home Page</a></li><li><a href="/#/about">About</a></li><li><a href="/#/contact">Contact</a></li></ul></div><h1>Hello World</h1>',
-		styles: ['h1{color:red}']
+		styles: ['h1{color:red}h1:after{content:\\'\\'}']
 	})
 	export class ComponentX {
 		constructor() {}
@@ -84,7 +84,7 @@ test('inline with compress', t => {
 
 	@Component({
 		selector: 'foo',
-		styles: ['h1{color:red}']
+		styles: ['h1{color:red}h1:after{content:\\'\\'}']
 	})
 	export class ComponentY {
 		constructor() {}
@@ -125,7 +125,7 @@ test('inline with compress and angular2 syntax', t => {
 	@Component({
 		selector: 'foo',
 		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1 *ngIf="hello">Hello World</h1>',
-		styles: ['h1{color:red}']
+		styles: ['h1{color:red}h1:after{content:\\'\\'}']
 	})
 	export class ComponentX {
 		constructor() {}
@@ -133,7 +133,7 @@ test('inline with compress and angular2 syntax', t => {
 
 	@Component({
 		selector: 'foo',
-		styles: ['h1{color:red}']
+		styles: ['h1{color:red}h1:after{content:\\'\\'}']
 	})
 	export class ComponentY {
 		constructor() {}
@@ -167,7 +167,7 @@ test('inline and match quotes', t => {
 	@Component({
 		selector: 'foo',
 		template: "<div class=\\"navbar-collapse collapse\\" collapse=\\"isCollapsed\\"><ul class=\\"nav sidebar-nav\\"><li><a href=\\"/#/home\\">Home Page</a></li><li><a href=\\"/#/about\\">About</a></li><li><a href=\\"/#/contact\\">Contact</a></li></ul></div><h1>Hello World</h1>",
-		styles: ['h1{color:red}']
+		styles: ['h1{color:red}h1:after{content:\\'\\'}']
 	})
 	export class ComponentX {
 		constructor() {}
@@ -189,7 +189,7 @@ test('inline and match quotes', t => {
 	@Component({
 		selector: 'foo',
 		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1 *ngIf="hello">Hello World</h1>',
-		styles: ['h1{color:red}']
+		styles: ['h1{color:red}h1:after{content:\\'\\'}']
 	})
 	export class ComponentX {
 		constructor() {}
@@ -213,7 +213,7 @@ test('inline with relative path', t => {
 	@Component({
 		selector: 'foo',
 		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1 *ngIf="hello">Hello World</h1>',
-		styles: ['h1{color:red}']
+		styles: ['h1{color:red}h1:after{content:\\'\\'}']
 	})
 	export class ComponentX {
 		constructor() {}
