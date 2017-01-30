@@ -1,7 +1,7 @@
 import test from 'ava';
 import fn from './';
 
-test('inline basic', t => {
+test('inline basic', async t => {
 	var content = `import {Component} from 'angular2/core';
 
 	@Component({
@@ -46,10 +46,58 @@ test('inline basic', t => {
 	base: 'samples'
   };
 
-  t.is(fn(content, options), result);
+	fn(content, options).then((r) => t.is(r, result));
 });
 
-test('inline with compress', t => {
+test('inline basic less', async t => {
+	var content = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		templateUrl: 'component.html',
+		styleUrls: ['component.less']
+	})
+	export class ComponentX {
+		constructor() {}
+	}
+
+	@Component({
+		selector: 'foo',
+		styleUrls: [
+			'component.css'
+		]
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+	var result = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		template: '<!-- HTML comments like this one should be removed when compression mode is on --><div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><!-- Extra spaces for testing compression --><li>  <a   href="/#/home">Home Page</a></li><li>  <a   href="/#/about">About</a></li><li>  <a   href="/#/contact">Contact</a></li></ul></div><h1>Hello World</h1>',
+		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\';}']
+	})
+	export class ComponentX {
+		constructor() {}
+	}
+
+	@Component({
+		selector: 'foo',
+		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\';}']
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+  let options = {
+	base: 'samples'
+  };
+
+  fn(content, options).then((r) => t.is(r, result));
+});
+
+test('inline with compress', async t => {
 	var content = `import {Component} from 'angular2/core';
 
 	@Component({
@@ -95,10 +143,10 @@ test('inline with compress', t => {
 		compress: true
 	};
 
-	t.is(fn(content, options), result);
+	fn(content, options).then((r) => t.is(r, result));
 });
 
-test('inline with compress and angular2 syntax', t => {
+test('inline with compress and angular2 syntax', async t => {
 	var content = `import {Component} from 'angular2/core';
 
 	@Component({
@@ -144,10 +192,10 @@ test('inline with compress and angular2 syntax', t => {
 		compress: true
 	};
 
-	t.is(fn(content, options), result);
+	fn(content, options).then((r) => t.is(r, result));
 });
 
-test('inline and match quotes', t => {
+test('inline and match quotes', async t => {
 	let options = {
 		base: 'samples',
 		compress: true
@@ -173,9 +221,9 @@ test('inline and match quotes', t => {
 		constructor() {}
 	}`;
 
-	t.is(fn(content, options), result);
+	fn(content, options).then((r) => t.is(r, result));
 
-	var content = `import {Component} from 'angular2/core';
+	var content2 = `import {Component} from 'angular2/core';
 	@Component({
 		selector: 'foo',
 		templateUrl: 'component-ng2.html',
@@ -185,7 +233,7 @@ test('inline and match quotes', t => {
 		constructor() {}
 	}`;
 
-	var result = `import {Component} from 'angular2/core';
+	var result2 = `import {Component} from 'angular2/core';
 	@Component({
 		selector: 'foo',
 		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a [routerLink]="[\\'Home\\']">Home</a></li><li><a [routerLink]="[\\'About\\']">About</a></li><li><a [routerLink]="[\\'Contact\\']" (complete)="onComplete()">Contact</a></li></ul></div><h1 *ngIf="hello">Hello World</h1>',
@@ -195,10 +243,10 @@ test('inline and match quotes', t => {
 		constructor() {}
 	}`;
 
-	t.is(fn(content, options), result);
+	fn(content2, options).then((r) => t.is(r, result2));
 });
 
-test('inline with relative path', t => {
+test('inline with relative path', async t => {
 	var content = `import {Component} from 'angular2/core';
 	@Component({
 		selector: 'foo',
@@ -225,8 +273,7 @@ test('inline with relative path', t => {
 	};
 
 	let path = require('path');
-	let actual = fn(content, options, path.join(__dirname, 'samples'));
-	t.is(actual, result);
+	fn(content, options, path.join(__dirname, 'samples')).then((r) => t.is(r, result));
 });
 
 test('upper', t => {
