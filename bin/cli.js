@@ -53,27 +53,29 @@
 					var target = path.join(process.cwd(), file);
 					var content = fs.readFileSync(target);
 					if (content) {
-						content = inliner(content.toString(), {
+						inliner(content.toString(), {
 							base: args.base,
 							compress: args.compress,
 							relative: args.relative
-						}, path.dirname(target));
-
-						if (args.flatten) {
-							file = flattener.flatten(file);
-						} else if (typeof args.up === 'number') {
-							file = upper(file, args.up);
-						}
-
-						var destination = path.join(args.outDir, file);
-						if (!fs.existsSync(path.dirname(destination))) {
-							mkdirp(path.dirname(destination));
-						}
-
-						fs.writeFile(destination, content, err => {
-							if (err) {
-								console.error('error processing file: ' + file + ', produced error: ' + err);
+						}, path.dirname(target)).then((r) => {
+							if (args.flatten) {
+								file = flattener(file);
+							} else if (typeof args.up === 'number') {
+								file = upper(file, args.up);
 							}
+
+							var destination = path.join(args.outDir, file);
+							if (!fs.existsSync(path.dirname(destination))) {
+								mkdirp(path.dirname(destination));
+							}
+
+							fs.writeFile(destination, r, err => {
+								if (err) {
+									console.error('error processing file: ' + file + ', produced error: ' + err);
+								}
+							});
+						}).catch((e) => {
+							console.error('failed with error: ' + e);
 						});
 					} else {
 						console.error('failed to read target: ' + target);

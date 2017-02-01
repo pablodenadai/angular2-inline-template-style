@@ -4,63 +4,92 @@ var fs = require('fs');
 var path = require('path');
 var minify = require('html-minifier').minify;
 var CleanCSS = require('clean-css');
+var less = require('less');
 
 module.exports = function (content, options, targetDir) {
 	options = options || {};
 	options.base = options.base || './';
 
-	content = processStyleUrls(content, options, targetDir);
-	content = processTemplateUrl(content, options, targetDir);
-
-	return content;
+	return processStyleUrls(content, options, targetDir).then((r) => processTemplateUrl(r, options, targetDir));
 };
 
 function processStyleUrls(content, options, targetDir) {
+	let closure = content;
 	let re = /styleUrls\s*:\s*(\[[^](.[^]*?)\])/g;
-	let matches = content.match(re);
+	let matches = closure.match(re);
 
 	if (matches === null || matches.length <= 0) {
-		return content;
+		return Promise.resolve(closure);
 	}
 
-	matches.forEach(function () {
-		let exec = re.exec(content);
+	return Promise.all(matches.map(function () {
+		let exec = re.exec(closure);
 		let style = exec[0];
 		let urls = exec[1];
 		urls = urls.replace(/'/g, '"');
 		urls = JSON.parse(urls);
 
-		var result = urls.map(function (url) {
+		return Promise.all(urls.map(function (url) {
 			let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
 
-			if (options.compress) {
-				file = new CleanCSS().minify(file).styles;
-			} else {
-				file = file.replace(/[\r\n]/g, '');
+			let fileNamePartsRe = /^[\./]*([^]*)\.(css|less)$/g;
+			let fileNamePartsMatches = url.match(fileNamePartsRe);
+			if (fileNamePartsMatches === null || fileNamePartsMatches.length <= 0) {
+				// Unsupported file type / malformed url
+				return file;
 			}
 
-			// escape quote chars
-			file = file.replace(new RegExp('\'', 'g'), '\\\'');
+			let fileNamePartsExec = fileNamePartsRe.exec(url);
+			let fileName = fileNamePartsExec[1];
+			let extension = fileNamePartsExec[2];
+			let promise;
+			if (extension === 'less') {
+				promise = less.render(
+					file,
+					{
+						paths: [options.base ? options.base : '.'],
+						filename: fileName,
+						compress: options.compress
+					}
+				).then((output) => {
+					return output.css;
+				}, (e) => {
+					throw e;
+				});
+			} else {
+				promise = Promise.resolve(file);
+			}
 
-			return file;
-		}).join('');
+			return promise.then((processed) => {
+				if (options.compress) {
+					processed = new CleanCSS().minify(processed).styles;
+				} else {
+					processed = processed.replace(/[\r\n]/g, '');
+				}
 
-		content = content.replace(style, 'styles: [\'' + result + '\']');
+				// escape quote chars
+				processed = processed.replace(new RegExp('\'', 'g'), '\\\'');
+				return processed;
+			});
+		})).then((files) => {
+			closure = closure.replace(style, 'styles: [\'' + files.join('') + '\']');
+		});
+	})).then(() => {
+		return closure;
 	});
-
-	return content;
 }
 
 function processTemplateUrl(content, options, targetDir) {
+	let closure = content;
 	let re = /templateUrl\s*:\s*(?:"([^"]+)"|'([^']+)')/g;
-	let matches = content.match(re);
+	let matches = closure.match(re);
 
 	if (matches === null || matches.length <= 0) {
-		return content;
+		return Promise.resolve(closure);
 	}
 
 	matches.forEach(function () {
-		let exec = re.exec(content);
+		let exec = re.exec(closure);
 		let template = exec[0];
 		let quote;
 		let url;
@@ -92,10 +121,10 @@ function processTemplateUrl(content, options, targetDir) {
 		// escape quote chars
 		file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
 
-		content = content.replace(template, 'template: ' + quote + file + quote);
+		closure = closure.replace(template, 'template: ' + quote + file + quote);
 	});
 
-	return content;
+	return Promise.resolve(closure);
 }
 
 function getAbsoluteUrl(url, options, targetDir) {

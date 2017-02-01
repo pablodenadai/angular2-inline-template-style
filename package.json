@@ -25,11 +25,12 @@
   "dependencies": {
     "clean-css": "^3.4.9",
     "html-minifier": "^1.1.1",
+    "less": "^2.7.2",
     "meow": "^3.6.0",
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {
-    "ava": "^0.8.0",
+    "ava": "^0.17.0",
     "chokidar-cli": "^1.2.0",
     "xo": "^0.12.1"
   },
