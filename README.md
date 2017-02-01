@@ -98,12 +98,11 @@ It will take all .js files (recursively) from `src/components` and insert templa
 Help wanted for implementing:
 
 - [ ] Jade
-- [ ] Less
+- [x] ~~Less~~ thanks [@synarque](https://github.com/synarque)
 - [ ] Scss/Sass
 - [x] ~~Relative file path~~
 - [x] ~~Grunt plugin~~ thanks [@m-architek](https://github.com/m-architek)
 - [ ] Gulp plugin
-- [ ] ES5 or 6 output options
 - [x] ~~CLI~~ thanks [@jiminys](https://github.com/jiminys)
 - [x] ~~Compression~~ thanks [@jiminys](https://github.com/jiminys)
 
