@@ -48,7 +48,7 @@ function processStyleUrls(content, options, targetDir) {
 					file,
 					{
 						paths: [options.base ? options.base : '.'],
-						filename: fileName,
+						filename: targetDir ? path.join(targetDir, fileName) : fileName,
 						compress: options.compress
 					}
 				).then((output) => {
