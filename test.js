@@ -27,7 +27,7 @@ test('inline basic', async t => {
 
 	@Component({
 		selector: 'foo',
-		template: '<!-- HTML comments like this one should be removed when compression mode is on --><div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><!-- Extra spaces for testing compression --><li>  <a   href="/#/home">Home Page</a></li><li>  <a   href="/#/about">About</a></li><li>  <a   href="/#/contact">Contact</a></li></ul></div><h1>Hello World</h1>',
+		template: '<!-- HTML comments like this one should be removed when compression mode is on --> <div class=\"navbar-collapse collapse\" collapse=\"isCollapsed\"> <ul class=\"nav sidebar-nav\"> <!-- Extra spaces for testing compression --> <li>  <a   href=\"/#/home\">Home Page</a></li> <li>  <a   href=\"/#/about\">About</a></li> <li>  <a   href=\"/#/contact\">Contact</a></li> </ul> </div> <h1>Hello World</h1> ',
 		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\';}']
 	})
 	export class ComponentX {

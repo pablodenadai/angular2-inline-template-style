@@ -115,7 +115,7 @@ function processTemplateUrl(content, options, targetDir) {
 				ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
 			});
 		} else {
-			file = file.replace(/[\r\n]\s*/g, '');
+			file = file.replace(/[\r\n]\s*/g, ' ');
 		}
 
 		// escape quote chars
