@@ -10,6 +10,20 @@ Resolve `templateUrl` and `styleUrls` in Angular2 components.
 $ npm install --save angular2-inline-template-style
 ```
 
+## Build from source
+
+Just clone the repository and run:
+
+```
+npm install 
+
+npm link
+```
+
+Linking requires administration rights, e.g. sudo on Mac.
+After the package has been linked, you should be able to call ng2-inline from command line.
+
+
 ## Usage
 
 ```css
@@ -76,13 +90,14 @@ Use [html-min](https://github.com/kangax/html-minifier) and [clean-css](https://
 ## CLI
 ### Usage
 ```bash
-ng2-inline [--outDir|-o] [--base|-b] [--flatten|-f] [--up|-u <count>] [--compress|-c] [--watch|-w] <path glob>
+ng2-inline [--outDir|-o] [--base|-b] [--flatten|-f] [--up|-u <count>] [--compress|-c] [--watch|-w] [--sourceOverwrite|-s] <path glob>
 ```
 - --flatten: remove parent directories from source locations (all output is written to --outDir)
 - --up <count>: remove `count` leading folders from the source locations when writing to --outDir
 - --base: as above
 - --compress: as above
 - --watch: runs [chokidar](https://github.com/paulmillr/chokidar) on the glob and on change runs a single file inline
+- --sourceOverwrite: allows overwriting input .js files with the respective output file. This only works in case --outDir is not set.
 
 ### Examples
 ```bash
