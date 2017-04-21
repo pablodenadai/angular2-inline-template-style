@@ -90,7 +90,7 @@ Use [html-min](https://github.com/kangax/html-minifier) and [clean-css](https://
 ## CLI
 ### Usage
 ```bash
-ng2-inline [--outDir|-o] [--base|-b] [--flatten|-f] [--up|-u <count>] [--compress|-c] [--watch|-w] [--sourceOverwrite|-s] <path glob>
+ng2-inline [--outDir|-o] [--base|-b] [--relative|-r] [--flatten|-f] [--up|-u <count>] [--compress|-c] [--watch|-w] [--sourceOverwrite|-s] <path glob>
 ```
 - --flatten: remove parent directories from source locations (all output is written to --outDir)
 - --up <count>: remove `count` leading folders from the source locations when writing to --outDir
@@ -98,6 +98,7 @@ ng2-inline [--outDir|-o] [--base|-b] [--flatten|-f] [--up|-u <count>] [--compres
 - --compress: as above
 - --watch: runs [chokidar](https://github.com/paulmillr/chokidar) on the glob and on change runs a single file inline
 - --sourceOverwrite: allows overwriting input .js files with the respective output file. This only works in case --outDir is not set.
+- --relative: keeps the relative path
 
 ### Examples
 ```bash
