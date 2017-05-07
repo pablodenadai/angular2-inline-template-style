@@ -326,7 +326,7 @@ test('when components have custom events and input properties and they are writt
 });
 
 test('when components have commented out templateUrls and styleUrls, those urls should be ignored', async t => {
-	
+
 	var content = `import {Component} from 'angular2/core';
 
 	@Component({
@@ -366,6 +366,38 @@ test('when components have commented out templateUrls and styleUrls, those urls 
 		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\';}']
 	})
 	export class ComponentY {
+		constructor() {}
+	}`;
+
+	let options = {
+		base: 'samples'
+	};
+
+	fn(content, options).then((r) => t.is(r, result));
+});
+
+test('when components have attributes and they are multiline', async t => {
+	var content = `import {Component} from 'angular2/core';
+
+	@Component({
+		templateUrl: 'multiline-attributes.html',
+		styleUrls: []
+	})
+	export class ComponentX {
+		constructor() {}
+	}`;
+
+	var result = `import {Component} from 'angular2/core';
+
+	@Component({
+		template: '<div [ngClass]="{' +
+'	compact: isCompact,' +
+'	hidden: isHidden,' +
+'	expanded: isExpanded' +
+'}">Test</div>',
+		styleUrls: []
+	})
+	export class ComponentX {
 		constructor() {}
 	}`;
 

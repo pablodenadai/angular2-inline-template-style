@@ -125,6 +125,9 @@ function processTemplateUrl(content, options, targetDir) {
 			// escape quote chars
 			file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
 
+			// join multilines
+			file = file.split('\n').join(quote + ' +\n' + quote);
+
 			closure = closure.replace(template, 'template: ' + quote + file + quote);
 		}
 	});
