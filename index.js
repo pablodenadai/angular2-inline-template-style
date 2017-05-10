@@ -15,7 +15,7 @@ module.exports = function (content, options, targetDir) {
 
 function processStyleUrls(content, options, targetDir) {
 	let closure = content;
-	let re = /styleUrls\s*:\s*(\[[^](.[^]*?)\])/g;
+	let re = /([/*]*|[/*]+\s*)styleUrls\s*:\s*(\[[^](.[^]*?)\])/g;
 	let matches = closure.match(re);
 
 	if (matches === null || matches.length <= 0) {
@@ -25,9 +25,13 @@ function processStyleUrls(content, options, targetDir) {
 	return Promise.all(matches.map(function () {
 		let exec = re.exec(closure);
 		let style = exec[0];
-		let urls = exec[1];
+		let urls = exec[2];
 		urls = urls.replace(/'/g, '"');
 		urls = JSON.parse(urls);
+
+		if (exec[1].trim() !== '') {
+			return '';
+		}
 
 		return Promise.all(urls.map(function (url) {
 			let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
@@ -81,7 +85,7 @@ function processStyleUrls(content, options, targetDir) {
 
 function processTemplateUrl(content, options, targetDir) {
 	let closure = content;
-	let re = /templateUrl\s*:\s*(?:"([^"]+)"|'([^']+)')/g;
+	let re = /([/*]*|[/*]+\s*)templateUrl\s*:\s*(?:"([^"]+)"|'([^']+)')/g;
 	let matches = closure.match(re);
 	let htmlMinifyConfig = {
 		caseSensitive: true,
@@ -102,26 +106,27 @@ function processTemplateUrl(content, options, targetDir) {
 		let template = exec[0];
 		let quote;
 		let url;
+		if (exec[1].trim() === '') {
+			if (exec[2]) {
+				url = exec[2];
+				quote = '"';
+			} else {
+				url = exec[3];
+				quote = '\'';
+			}
 
-		if (exec[1]) {
-			url = exec[1];
-			quote = '"';
-		} else {
-			url = exec[2];
-			quote = '\'';
+			let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
+			if (options.compress) {
+				file = minify(file, Object.assign({}, htmlMinifyConfig, {removeComments: true}));
+			} else {
+				file = minify(file, htmlMinifyConfig);
+			}
+
+			// escape quote chars
+			file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
+
+			closure = closure.replace(template, 'template: ' + quote + file + quote);
 		}
-
-		let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
-		if (options.compress) {
-			file = minify(file, Object.assign({}, htmlMinifyConfig, {removeComments: true}));
-		} else {
-			file = minify(file, htmlMinifyConfig);
-		}
-
-		// escape quote chars
-		file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
-
-		closure = closure.replace(template, 'template: ' + quote + file + quote);
 	});
 
 	return Promise.resolve(closure);

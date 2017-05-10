@@ -325,6 +325,57 @@ test('when components have custom events and input properties and they are writt
 	fn(content, options).then((r) => t.is(r, result));
 });
 
+test('when components have commented out templateUrls and styleUrls, those urls should be ignored', async t => {
+	
+	var content = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		template: '<div>Hello World</h1>'
+		//templateUrl: 'custom-components-formatted.html',
+		//	styleUrls: ['component.css']
+	})
+	export class ComponentX {
+		constructor() {}
+	}
+
+	@Component({
+		selector: 'foo',
+		styleUrls: [
+			'component.css'
+		]
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+	var result = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		template: '<div>Hello World</h1>'
+		//templateUrl: 'custom-components-formatted.html',
+		//	styleUrls: ['component.css']
+	})
+	export class ComponentX {
+		constructor() {}
+	}
+
+	@Component({
+		selector: 'foo',
+		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\';}']
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+	let options = {
+		base: 'samples'
+	};
+
+	fn(content, options).then((r) => t.is(r, result));
+});
+
 test('upper', t => {
 	let upper = require('./bin/upper');
 
