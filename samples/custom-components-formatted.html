@@ -1,0 +1,19 @@
+<!-- HTML comments like this one should be removed when compression mode is on -->
+
+<div class="navbar-collapse collapse" collapse="isCollapsed">
+	<ul class="nav sidebar-nav">
+		<!-- Extra spaces for testing compression -->
+		<cutom-list-item (onSecondClick)="secondClick()"
+                         [displayValue]="'Home'">
+        </cutom-list-item>
+        <cutom-list-item (onSecondClick)="secondClick()"
+                         [displayValue]="'About'">
+        </cutom-list-item>
+        <cutom-list-item (onSecondClick)="secondClick()" 
+                         (onComplete)="onTaskComplete()" 
+                         [displayValue]="'Contact'">
+        </cutom-list-item>
+	</ul>
+</div>
+
+<h1 *ngIf="hello">Hello World</h1>

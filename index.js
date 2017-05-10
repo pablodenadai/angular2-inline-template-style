@@ -83,6 +83,15 @@ function processTemplateUrl(content, options, targetDir) {
 	let closure = content;
 	let re = /templateUrl\s*:\s*(?:"([^"]+)"|'([^']+)')/g;
 	let matches = closure.match(re);
+	let htmlMinifyConfig = {
+		caseSensitive: true,
+		collapseWhitespace: true,
+		/*
+		ng2 bindings break the parser for html-minifer, so the
+		following blocks the processing of ()="" and []="" attributes
+		*/
+		ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
+	};
 
 	if (matches === null || matches.length <= 0) {
 		return Promise.resolve(closure);
@@ -104,18 +113,9 @@ function processTemplateUrl(content, options, targetDir) {
 
 		let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
 		if (options.compress) {
-			file = minify(file, {
-				caseSensitive: true,
-				collapseWhitespace: true,
-				removeComments: true,
-				/*
-				 ng2 bindings break the parser for html-minifer, so the
-				 following blocks the processing of ()="" and []="" attributes
-				 */
-				ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
-			});
+			file = minify(file, Object.assign({}, htmlMinifyConfig, {removeComments: true}));
 		} else {
-			file = file.replace(/[\r\n]\s*/g, '');
+			file = minify(file, htmlMinifyConfig);
 		}
 
 		// escape quote chars

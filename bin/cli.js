@@ -20,10 +20,11 @@
 			b: 'base',
 			c: 'compress',
 			w: 'watch',
-			r: 'relative'
+			r: 'relative',
+			s: 'sourceOverwrite'
 		},
 		string: ['outDir', 'base'],
-		boolean: ['flatten', 'compress', 'watch', 'relative'],
+		boolean: ['flatten', 'compress', 'watch', 'relative', 'sourceOverwrite'],
 		number: ['up']
 	});
 
@@ -64,7 +65,18 @@
 								file = upper(file, args.up);
 							}
 
-							var destination = path.join(args.outDir, file);
+							let out = args.outDir;
+
+							if (typeof args.outDir === 'undefined') {
+								if (typeof args.sourceOverwrite === 'undefined') {
+									console.log('No out path set. If you want to replace input files, set -s switch');
+								} else {
+									out = path.dirname(target);
+								}
+							}
+
+							var destination = path.join(out, file);
+							console.log('Wrting ' + destination);
 							if (!fs.existsSync(path.dirname(destination))) {
 								mkdirp(path.dirname(destination));
 							}
