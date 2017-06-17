@@ -102,10 +102,12 @@ ng2-inline [--outDir|-o] [--base|-b] [--relative|-r] [--flatten|-f] [--up|-u <co
 
 ### Examples
 ```bash
-ng2-inline -o dist -f -b src/components src/components/**/*.js
+ng2-inline -o dist -f -b src/components "src/components/**/*.js"
 ```
 
 It will take all .js files (recursively) from `src/components` and insert template/style URLs, found relative to `src/components`, and output them to `./dist/` with leading paths removed.
+
+**Important!** note that glob pattern `"src/components/**/*.js"` is surrounded with quotation marks. Without it, only a single file will get matched and passed down to `ng2-inline`.
 
 ## Plugins
  - [grunt-ng2-inline](https://github.com/m-architek/grunt-ng2-inline)
