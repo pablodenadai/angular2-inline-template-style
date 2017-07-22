@@ -24,7 +24,7 @@
 			s: 'sourceOverwrite'
 		},
 		string: ['outDir', 'base'],
-		boolean: ['flatten', 'compress', 'watch', 'relative', 'sourceOverwrite'],
+		boolean: ['flatten', 'compress', 'watch', 'relative', 'sourceOverwrite', 'silent'],
 		number: ['up']
 	});
 
@@ -76,7 +76,9 @@
 							}
 
 							var destination = path.join(out, file);
-							console.log('Wrting ' + destination);
+							if (!args.silent) {
+								console.log('Wrting ' + destination);
+							}
 							if (!fs.existsSync(path.dirname(destination))) {
 								mkdirp(path.dirname(destination));
 							}

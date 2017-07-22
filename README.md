@@ -15,7 +15,7 @@ $ npm install --save angular2-inline-template-style
 Just clone the repository and run:
 
 ```
-npm install 
+npm install
 
 npm link
 ```
@@ -99,6 +99,7 @@ ng2-inline [--outDir|-o] [--base|-b] [--relative|-r] [--flatten|-f] [--up|-u <co
 - --watch: runs [chokidar](https://github.com/paulmillr/chokidar) on the glob and on change runs a single file inline
 - --sourceOverwrite: allows overwriting input .js files with the respective output file. This only works in case --outDir is not set.
 - --relative: keeps the relative path
+- --silent: output only errors
 
 ### Examples
 ```bash
