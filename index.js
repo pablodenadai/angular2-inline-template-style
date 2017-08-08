@@ -5,6 +5,7 @@ var path = require('path');
 var minify = require('html-minifier').minify;
 var CleanCSS = require('clean-css');
 var less = require('less');
+var sass = require('node-sass');
 
 module.exports = function (content, options, targetDir) {
 	options = options || {};
@@ -36,7 +37,7 @@ function processStyleUrls(content, options, targetDir) {
 		return Promise.all(urls.map(function (url) {
 			let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
 
-			let fileNamePartsRe = /^[\./]*([^]*)\.(css|less)$/g;
+			let fileNamePartsRe = /^[\./]*([^]*)\.(css|less|scss)$/g;
 			let fileNamePartsMatches = url.match(fileNamePartsRe);
 			if (fileNamePartsMatches === null || fileNamePartsMatches.length <= 0) {
 				// Unsupported file type / malformed url
@@ -47,7 +48,17 @@ function processStyleUrls(content, options, targetDir) {
 			let fileName = fileNamePartsExec[1];
 			let extension = fileNamePartsExec[2];
 			let promise;
-			if (extension === 'less') {
+			if(extension === 'scss') {
+				promise = new Promise((resolve, reject) => {
+					resolve(sass.renderSync({
+					data: file
+				}).css.toString());
+			}).then((output) => {
+					return output;
+			}, (e) => {
+					throw e;
+				});
+			} else if (extension === 'less') {
 				promise = less.render(
 					file,
 					{
@@ -57,7 +68,7 @@ function processStyleUrls(content, options, targetDir) {
 					}
 				).then((output) => {
 					return output.css;
-				}, (e) => {
+			}, (e) => {
 					throw e;
 				});
 			} else {
@@ -66,21 +77,21 @@ function processStyleUrls(content, options, targetDir) {
 
 			return promise.then((processed) => {
 				if (options.compress) {
-					processed = new CleanCSS().minify(processed).styles;
-				} else {
-					processed = processed.replace(/[\r\n]/g, '');
-				}
+				processed = new CleanCSS().minify(processed).styles;
+			} else {
+				processed = processed.replace(/[\r\n]/g, '');
+			}
 
-				// escape quote chars
-				processed = processed.replace(new RegExp('\'', 'g'), '\\\'');
-				return processed;
-			});
+			// escape quote chars
+			processed = processed.replace(new RegExp('\'', 'g'), '\\\'');
+			return processed;
+		});
 		})).then((files) => {
 			closure = closure.replace(style, 'styles: [\'' + files.join('') + '\']');
-		});
+	});
 	})).then(() => {
 		return closure;
-	});
+});
 }
 
 function processTemplateUrl(content, options, targetDir) {
