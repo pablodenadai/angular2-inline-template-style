@@ -35,7 +35,8 @@ function processStyleUrls(content, options, targetDir) {
 		}
 
 		return Promise.all(urls.map(function (url) {
-			let file = fs.readFileSync(getAbsoluteUrl(url, options, targetDir), 'utf-8');
+     		const filePath = getAbsoluteUrl(url, options, targetDir);
+			let file = fs.readFileSync(filePath, 'utf-8');
 
 			let fileNamePartsRe = /^[\./]*([^]*)\.(css|less|scss)$/g;
 			let fileNamePartsMatches = url.match(fileNamePartsRe);
@@ -51,8 +52,8 @@ function processStyleUrls(content, options, targetDir) {
 			if(extension === 'scss') {
 				promise = new Promise((resolve, reject) => {
 					resolve(sass.renderSync({
-					data: file
-				}).css.toString());
+					  file: filePath
+				  }).css.toString());
 			}).then((output) => {
 					return output;
 			}, (e) => {
