@@ -11,7 +11,9 @@ module.exports = function (content, options, targetDir) {
 	options = options || {};
 	options.base = options.base || './';
 
-	return processStyleUrls(content, options, targetDir).then((r) => processTemplateUrl(r, options, targetDir));
+	return processStyleUrls(content, options, targetDir).then((r) = > processTemplateUrl(r, options, targetDir)
+)
+	;
 };
 
 function processStyleUrls(content, options, targetDir) {
@@ -35,7 +37,7 @@ function processStyleUrls(content, options, targetDir) {
 		}
 
 		return Promise.all(urls.map(function (url) {
-     		const filePath = getAbsoluteUrl(url, options, targetDir);
+			const filePath = getAbsoluteUrl(url, options, targetDir);
 			let file = fs.readFileSync(filePath, 'utf-8');
 
 			let fileNamePartsRe = /^[\./]*([^]*)\.(css|less|scss)$/g;
@@ -49,50 +51,70 @@ function processStyleUrls(content, options, targetDir) {
 			let fileName = fileNamePartsExec[1];
 			let extension = fileNamePartsExec[2];
 			let promise;
-			if(extension === 'scss') {
-				promise = new Promise((resolve, reject) => {
+			if (extension === 'scss') {
+				promise = new Promise((resolve, reject) = > {
 					resolve(sass.renderSync({
-					  file: filePath
-				  }).css.toString());
-			}).then((output) => {
+					file: filePath
+				}).css.toString()
+			)
+				;
+			}).
+				then((output) = > {
 					return output;
-			}, (e) => {
+			},
+				(e) =
+			>
+				{
 					throw e;
-				});
+				}
+			)
+				;
 			} else if (extension === 'less') {
 				promise = less.render(
-					file,
-					{
-						paths: [options.base ? options.base : '.'],
-						filename: targetDir ? path.join(targetDir, fileName) : fileName,
-						compress: options.compress
-					}
-				).then((output) => {
+						file,
+						{
+							paths: [options.base ? options.base : '.'],
+							filename: targetDir ? path.join(targetDir, fileName) : fileName,
+							compress: options.compress
+						}
+				).then((output) = > {
 					return output.css;
-			}, (e) => {
+			},
+				(e) =
+			>
+				{
 					throw e;
-				});
+				}
+			)
+				;
 			} else {
 				promise = Promise.resolve(file);
 			}
 
-			return promise.then((processed) => {
-				if (options.compress) {
+			return promise.then((processed) = > {
+				if(options.compress
+		)
+			{
 				processed = new CleanCSS().minify(processed).styles;
-			} else {
+			}
+		else
+			{
 				processed = processed.replace(/[\r\n]/g, '');
 			}
 
 			// escape quote chars
 			processed = processed.replace(new RegExp('\'', 'g'), '\\\'');
 			return processed;
-		});
-		})).then((files) => {
+		})
+			;
+		})).then((files) = > {
 			closure = closure.replace(style, 'styles: [\'' + files.join('') + '\']');
-	});
-	})).then(() => {
+	})
+		;
+	})).then(() = > {
 		return closure;
-});
+})
+	;
 }
 
 function processTemplateUrl(content, options, targetDir) {
@@ -103,9 +125,9 @@ function processTemplateUrl(content, options, targetDir) {
 		caseSensitive: true,
 		collapseWhitespace: true,
 		/*
-		ng2 bindings break the parser for html-minifer, so the
-		following blocks the processing of ()="" and []="" attributes
-		*/
+    ng2 bindings break the parser for html-minifer, so the
+    following blocks the processing of ()="" and []="" attributes
+    */
 		ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
 	};
 
