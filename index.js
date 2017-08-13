@@ -50,69 +50,49 @@ function processStyleUrls(content, options, targetDir) {
 			let extension = fileNamePartsExec[2];
 			let promise;
 			if (extension === 'scss') {
-				promise = new Promise((resolve, reject) = > {
+				promise = new Promise((resolve) => {
 					resolve(sass.renderSync({
-					file: filePath
-				}).css.toString()
-			)
-				;
-			}).
-				then((output) = > {
+						file: filePath
+					}).css.toString());
+				}).then((output) => {
 					return output;
-			},
-				(e) =
-			>
-				{
+				}, (e) => {
 					throw e;
-				}
-			)
-				;
+				});
 			} else if (extension === 'less') {
 				promise = less.render(
-						file,
-						{
-							paths: [options.base ? options.base : '.'],
-							filename: targetDir ? path.join(targetDir, fileName) : fileName,
-							compress: options.compress
-						}
-				).then((output) = > {
+					file,
+					{
+						paths: [options.base ? options.base : '.'],
+						filename: targetDir ? path.join(targetDir, fileName) : fileName,
+						compress: options.compress
+					}
+				).then((output) => {
 					return output.css;
-			},
-				(e) =
-			>
-				{
+				}, (e) => {
 					throw e;
-				}
-			)
-				;
+				});
 			} else {
 				promise = Promise.resolve(file);
 			}
 
-			return promise.then((processed) = > {
-				if(options.compress
-		)
-			{
-				processed = new CleanCSS().minify(processed).styles;
-			}
-		else
-			{
-				processed = processed.replace(/[\r\n]/g, '');
-			}
+			return promise.then((processed) => {
+				if (options.compress) {
+					processed = new CleanCSS().minify(processed).styles;
+				} else {
+					processed = processed.replace(/[\r\n]/g, '');
+				}
 
-			// escape quote chars
-			processed = processed.replace(new RegExp('\'', 'g'), '\\\'');
-			return processed;
-		})
-			;
-		})).then((files) = > {
+				// escape quote chars
+				processed = processed.replace(new RegExp('\'', 'g'), '\\\'');
+				return processed;
+			});
+		})).then((files) => {
 			closure = closure.replace(style, 'styles: [\'' + files.join('') + '\']');
-	})
-		;
-	})).then(() = > {
+		});
+	})).then(() => {
 		return closure;
-})
-	;
+	});
 }
 
 function processTemplateUrl(content, options, targetDir) {
@@ -123,9 +103,9 @@ function processTemplateUrl(content, options, targetDir) {
 		caseSensitive: true,
 		collapseWhitespace: true,
 		/*
-    ng2 bindings break the parser for html-minifer, so the
-    following blocks the processing of ()="" and []="" attributes
-    */
+		ng2 bindings break the parser for html-minifer, so the
+		following blocks the processing of ()="" and []="" attributes
+		*/
 		ignoreCustomFragments: [/\s\[.*\]=\"[^\"]*\"/, /\s\([^)"]+\)=\"[^\"]*\"/]
 	};
 
