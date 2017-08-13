@@ -11,9 +11,7 @@ module.exports = function (content, options, targetDir) {
 	options = options || {};
 	options.base = options.base || './';
 
-	return processStyleUrls(content, options, targetDir).then((r) = > processTemplateUrl(r, options, targetDir)
-)
-	;
+	return processStyleUrls(content, options, targetDir).then((r) => processTemplateUrl(r, options, targetDir));
 };
 
 function processStyleUrls(content, options, targetDir) {
