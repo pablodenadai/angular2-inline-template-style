@@ -49,6 +49,37 @@ test('inline basic', async t => {
 	fn(content, options).then((r) => t.is(r, result));
 });
 
+test('inline content icon', async t => {
+	var content = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		styleUrls: [
+			'component-with-icon.css'
+		]
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+	var result = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\\\f1d8\\';}']
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+	let options = {
+		base: 'samples'
+	};
+
+	fn(content, options).then((r) => t.is(r, result));
+});
+
+
 test('inline basic less', async t => {
 	var content = `import {Component} from 'angular2/core';
 
@@ -145,6 +176,38 @@ test('inline with compress', async t => {
 
 	fn(content, options).then((r) => t.is(r, result));
 });
+
+test('inline content icon with compress', async t => {
+	var content = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		styleUrls: [
+			'component-with-icon.css'
+		]
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+	var result = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		styles: ['h1{color:red}h1:after{content:\\'\\\\f1d8\\'}']
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+	let options = {
+		base: 'samples',
+		compress: true
+	};
+
+	fn(content, options).then((r) => t.is(r, result));
+});
+
 
 test('inline with compress and angular2 syntax', async t => {
 	var content = `import {Component} from 'angular2/core';
