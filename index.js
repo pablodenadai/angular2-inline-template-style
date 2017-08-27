@@ -86,6 +86,7 @@ function processStyleUrls(content, options, targetDir) {
 function processTemplateUrl(content, options, targetDir) {
 	let closure = content;
 	let re = /([/*]*|[/*]+\s*)templateUrl\s*:\s*(?:"([^"]+)"|'([^']+)')/g;
+	let newLine = /[\r\n]+/g;
 	let matches = closure.match(re);
 	let htmlMinifyConfig = {
 		caseSensitive: true,
@@ -126,7 +127,7 @@ function processTemplateUrl(content, options, targetDir) {
 			file = file.replace(new RegExp(quote, 'g'), '\\' + quote);
 
 			// join multilines
-			file = file.split('\n').join(quote + ' +\n' + quote);
+			file = file.split(newLine).join(quote + ' +\n' + quote);
 
 			closure = closure.replace(template, 'template: ' + quote + file + quote);
 		}
