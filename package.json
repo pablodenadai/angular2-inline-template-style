@@ -27,7 +27,8 @@
     "html-minifier": "^1.1.1",
     "less": "^2.7.2",
     "meow": "^3.6.0",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "node-sass": "^4.5.3"
   },
   "devDependencies": {
     "ava": "^0.17.0",
