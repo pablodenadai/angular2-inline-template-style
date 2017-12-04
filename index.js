@@ -52,7 +52,8 @@ function processStyleUrls(content, options, targetDir) {
 			if (extension === 'scss') {
 				promise = new Promise((resolve) => {
 					resolve(sass.renderSync({
-						file: filePath
+						file: filePath,
+						includePaths: options.includePaths ? options.includePaths : []
 					}).css.toString());
 				}).then((output) => {
 					return output;

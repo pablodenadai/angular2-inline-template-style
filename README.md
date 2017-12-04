@@ -74,18 +74,23 @@ export class ComponentX {
 ## API
 ### styleUrls(content, [options])
 #### content
-Type: `string`  
+Type: `string`
 The file content to be processed.
 
 #### options
 ##### base
-Type: `string`  
-Default: `'./'`  
+Type: `string`
+Default: `'./'`
 Base folder for templates and stylesheet files.
 ##### compress
-Type: `boolean`  
-Default: `false`  
+Type: `boolean`
+Default: `false`
 Use [html-min](https://github.com/kangax/html-minifier) and [clean-css](https://github.com/jakubpawlowicz/clean-css) to compress the templates before they are inlined.
+##### includePaths
+Type: `string[]`
+Default: `[]`
+Alternate folder paths for node-sass to search for @imports
+Use [node-sass](https://github.com/sass/node-sass#includepaths)
 
 ## CLI
 ### Usage

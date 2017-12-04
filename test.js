@@ -1,6 +1,10 @@
 import test from 'ava';
 import fn from './';
 
+const collapseWhiteSpace = (str) => {
+	return str.replace(/\s/g, "")
+}
+
 test('inline basic', async t => {
 	var content = `import {Component} from 'angular2/core';
 
@@ -142,7 +146,7 @@ test('inline basic scss', async t => {
 		base: 'samples'
 	};
 
-	fn(content, options).then((r) => t.is(r, result));
+	fn(content, options).then((r) => t.is(collapseWhiteSpace(r), collapseWhiteSpace(result)));
 });
 
 test('inline with compress', async t => {
@@ -172,14 +176,7 @@ test('inline with compress', async t => {
 	@Component({
 		selector: 'foo',
 		template: '<div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><li><a href="/#/home">Home Page</a></li><li><a href="/#/about">About</a></li><li><a href="/#/contact">Contact</a></li></ul></div><h1>Hello World</h1>',
-		styles: ['
-h1 {
-  color: #ff0000; }
-
-h1:after {
-  content: ''; }
-
-']
+		styles: ['h1{color:red}h1:after{content:\\'\\'}']
 	})
 	export class ComponentX {
 		constructor() {}
