@@ -1,6 +1,10 @@
 import test from 'ava';
 import fn from './';
 
+const collapseWhiteSpace = (str) => {
+	return str.replace(/\s/g, "")
+}
+
 test('inline basic', async t => {
 	var content = `import {Component} from 'angular2/core';
 
@@ -95,6 +99,54 @@ test('inline basic less', async t => {
   };
 
   fn(content, options).then((r) => t.is(r, result));
+});
+
+test('inline basic scss', async t => {
+	var content = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		templateUrl: 'component.html',
+		styleUrls: ['component.scss']
+	})
+	export class ComponentX {
+		constructor() {}
+	}
+
+	@Component({
+		selector: 'foo',
+		styleUrls: [
+			'component.css'
+		]
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+	var result = `import {Component} from 'angular2/core';
+
+	@Component({
+		selector: 'foo',
+		template: '<!-- HTML comments like this one should be removed when compression mode is on --><div class="navbar-collapse collapse" collapse="isCollapsed"><ul class="nav sidebar-nav"><!-- Extra spaces for testing compression --><li>  <a   href="/#/home">Home Page</a></li><li>  <a   href="/#/about">About</a></li><li>  <a   href="/#/contact">Contact</a></li></ul></div><h1>Hello World</h1>',
+		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\';}']
+	})
+	export class ComponentX {
+		constructor() {}
+	}
+
+	@Component({
+		selector: 'foo',
+		styles: ['h1 {  color: #ff0000;}h1:after {  content: \\'\\';}']
+	})
+	export class ComponentY {
+		constructor() {}
+	}`;
+
+	let options = {
+		base: 'samples'
+	};
+
+	fn(content, options).then((r) => t.is(collapseWhiteSpace(r), collapseWhiteSpace(result)));
 });
 
 test('inline with compress', async t => {
