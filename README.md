@@ -123,7 +123,7 @@ Help wanted for implementing:
 
 - [ ] Jade
 - [x] ~~Less~~ thanks [@synarque](https://github.com/synarque)
-- [ ] Scss/Sass
+- [x] ~~Scss/Sass~~ thanks [@dfenstermaker](https://github.com/dfenstermaker)
 - [x] ~~Relative file path~~
 - [x] ~~Grunt plugin~~ thanks [@m-architek](https://github.com/m-architek)
 - [ ] Gulp plugin
