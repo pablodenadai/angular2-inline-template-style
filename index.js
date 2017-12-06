@@ -84,6 +84,9 @@ function processStyleUrls(content, options, targetDir) {
 					processed = processed.replace(/[\r\n]/g, '');
 				}
 
+				// escape \ char
+				processed = processed.replace(new RegExp('\\\\', 'g'), '\\\\');
+
 				// escape quote chars
 				processed = processed.replace(new RegExp('\'', 'g'), '\\\'');
 				return processed;
