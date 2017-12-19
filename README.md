@@ -126,7 +126,7 @@ Help wanted for implementing:
 - [x] ~~Scss/Sass~~ thanks [@dfenstermaker](https://github.com/dfenstermaker)
 - [x] ~~Relative file path~~
 - [x] ~~Grunt plugin~~ thanks [@m-architek](https://github.com/m-architek)
-- [ ] Gulp plugin
+- [x] ~~Gulp plugin~~ thanks [@dfenstermaker](https://github.com/dfenstermaker/gulp-angular-inline)
 - [x] ~~CLI~~ thanks [@jiminys](https://github.com/jiminys)
 - [x] ~~Compression~~ thanks [@jiminys](https://github.com/jiminys)
 
