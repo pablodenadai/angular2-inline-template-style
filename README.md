@@ -117,6 +117,7 @@ It will take all .js files (recursively) from `src/components` and insert templa
 
 ## Plugins
  - [grunt-ng2-inline](https://github.com/m-architek/grunt-ng2-inline)
+ - [gulp-angular-inline](https://github.com/dfenstermaker/gulp-angular-inline)
 
 ## Help wanted
 Help wanted for implementing:
